@@ -3,16 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Digital Rufiya Wallet - BSC</title>
+  <title>DRF Wallet - BSC</title>
 
-  <link rel="stylesheet" href="style.css">
+  <!-- Load WalletConnect Core, WalletKit, and ethers.js (UMD versions for better compatibility) -->
+  <script src="https://cdn.jsdelivr.net/npm/@walletconnect/core@2.8.5/dist/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@reown/walletkit@1.0.6/dist/umd/walletkit.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
 
-  <!-- Load WalletKit, WalletConnect Core and ethers.js -->
-  <script type="module" src="wallet-connection.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: #f0f8ff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #f3ba2f;
+      border: none;
+      border-radius: 8px;
+      color: black;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #d9a520;
+    }
+    #userAddress {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    #userAddress:hover {
+      color: darkblue;
+    }
+  </style>
+
 </head>
 
 <body>
-  <div class="container">
+  <div>
     <img src="https://ik.imagekit.io/ttbbg9ocv/1000000655.jpg?updatedAt=1745663093226" alt="Logo" width="150">
     <h1>DRF Wallet (BSC)</h1>
 
@@ -26,6 +57,110 @@
     <p id="status" style="margin-top:20px;">Please connect your wallet</p>
   </div>
 
-  <script src="wallet.js" type="module"></script>
+  <script>
+    // Wallet Detection
+    if (typeof window.ethereum !== 'undefined') {
+      console.log('Wallet is available!');
+    } else {
+      console.log('No wallet found. Please install MetaMask.');
+      document.getElementById('status').innerText = 'No wallet found. Please install MetaMask.';
+    }
+
+    // Setup
+    const core = new window.WalletConnect.Core({
+      projectId: '5c53beb0cbc14bcf6d24f38c9bfb7560'
+    });
+
+    const metadata = {
+      name: 'Digitalrufiya-wallet',
+      description: 'DRF Wallet Example',
+      url: 'https://reown.com/appkit',
+      icons: ['https://assets.reown.com/reown-profile-pic.png']
+    };
+
+    const tokenAddress = '0x657f33094eD55c2864b0f9De0B11127e08165FAd';
+    const tokenABI = [
+      "function balanceOf(address owner) view returns (uint256)",
+      "function decimals() view returns (uint8)"
+    ];
+
+    let walletKit;
+    let ethersProvider;
+
+    async function initWalletKit() {
+      walletKit = await window.WalletKit.WalletKit.init({
+        core,
+        metadata,
+        requiredChains: [56] // BSC chain
+      });
+    }
+
+    async function connectWallet(isAutoReconnect = false) {
+      try {
+        if (!walletKit) {
+          await initWalletKit();
+        }
+        const session = await walletKit.connect({
+          autoConnectLastSession: isAutoReconnect
+        });
+
+        const accounts = session.accounts;
+        const address = accounts[0];
+
+        console.log('Connected account:', address);
+
+        document.getElementById('userAddress').innerText = address;
+        document.getElementById('walletInfo').style.display = 'block';
+        document.getElementById('status').innerText = 'Wallet Connected to BSC!';
+
+        if (!isAutoReconnect) {
+          localStorage.setItem('walletConnected', 'true');
+        }
+
+        ethersProvider = new window.ethers.BrowserProvider(walletKit.getProvider());
+
+        await fetchTokenBalance(address);
+
+      } catch (error) {
+        console.error('Wallet connection failed:', error);
+        document.getElementById('status').innerText = 'Connection failed. Please try again.';
+        localStorage.removeItem('walletConnected');
+      }
+    }
+
+    async function fetchTokenBalance(address) {
+      try {
+        const tokenContract = new window.ethers.Contract(tokenAddress, tokenABI, ethersProvider);
+        const [balance, decimals] = await Promise.all([
+          tokenContract.balanceOf(address),
+          tokenContract.decimals()
+        ]);
+
+        const formattedBalance = window.ethers.formatUnits(balance, decimals);
+        document.getElementById('tokenBalance').innerText = `${formattedBalance} DRF`;
+      } catch (error) {
+        console.error('Error fetching token balance:', error);
+        document.getElementById('tokenBalance').innerText = 'Error fetching balance';
+      }
+    }
+
+    function copyAddress() {
+      const address = document.getElementById('userAddress').innerText;
+      navigator.clipboard.writeText(address).then(() => {
+        alert('Wallet address copied to clipboard!');
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('connectButton').addEventListener('click', () => connectWallet(false));
+      document.getElementById('userAddress').addEventListener('click', copyAddress);
+
+      if (localStorage.getItem('walletConnected') === 'true') {
+        console.log('Attempting auto reconnect...');
+        await connectWallet(true);
+      }
+    });
+  </script>
+
 </body>
 </html>
