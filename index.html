@@ -2,65 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DRF Wallet</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      margin-top: 50px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      margin-top: 20px;
-    }
-    #walletAddress, #balance {
-      margin-top: 20px;
-      font-size: 16px;
-    }
-    img {
-      width: 150px;
-      height: 150px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Rufiya Wallet - BSC</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Load WalletKit, WalletConnect Core and ethers.js -->
+  <script type="module" src="wallet-connection.js"></script>
 </head>
+
 <body>
+  <div class="container">
+    <img src="https://ik.imagekit.io/ttbbg9ocv/1000000655.jpg?updatedAt=1745663093226" alt="Logo" width="150">
+    <h1>DRF Wallet (BSC)</h1>
 
-  <img src="YOUR_LOGO_URL_HERE" alt="DRF Logo" />
-  <h1>DRF Wallet</h1>
+    <button id="connectButton">Connect Wallet</button>
 
-  <button onclick="connectWallet()">Connect Wallet</button>
+    <div id="walletInfo" style="display:none; margin-top:20px;">
+      <p><strong>Address:</strong> <span id="userAddress"></span></p>
+      <p><strong>DRF Token Balance:</strong> <span id="tokenBalance"></span></p>
+    </div>
 
-  <div id="walletAddress"></div>
-  <div id="balance"></div>
+    <p id="status" style="margin-top:20px;">Please connect your wallet</p>
+  </div>
 
-  <script>
-    let account;
-
-    async function connectWallet() {
-      if (window.ethereum) {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          account = accounts[0];
-          document.getElementById('walletAddress').innerText = 'Wallet: ' + account;
-          getBalance();
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        alert('Please install MetaMask!');
-      }
-    }
-
-    async function getBalance() {
-      const balanceWei = await window.ethereum.request({
-        method: 'eth_getBalance',
-        params: [account, 'latest']
-      });
-      const balance = parseFloat(parseInt(balanceWei, 16) / 1e18).toFixed(4);
-      document.getElementById('balance').innerText = 'BNB Balance: ' + balance;
-    }
-  </script>
-
+  <script src="wallet.js" type="module"></script>
 </body>
 </html>
