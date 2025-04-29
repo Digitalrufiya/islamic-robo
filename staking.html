@@ -36,3 +36,26 @@
   <p>You can upload requests to Google Drive manually for easier tracking.</p>
 </body>
 </html>
+<form onsubmit="return validateAddress();">
+  <label for="drf_address">Your DRF Wallet Address:</label>
+  <input type="text" id="drf_address" name="drf_address" required>
+
+  <p style="color: red; font-weight: bold; margin-top: 5px;">
+    ⚠️ Warning: If you enter the wrong DRF address, your coins will be lost forever and cannot be recovered!
+  </p>
+
+  <button type="submit">Submit Withdrawal Request</button>
+</form>
+
+<script>
+  function validateAddress() {
+    const address = document.getElementById("drf_address").value.trim();
+    const isValid = /^0x[a-fA-F0-9]{40}$/.test(address);
+
+    if (!isValid) {
+      alert("Invalid DRF wallet address! It must start with '0x' and be 42 characters long.");
+      return false;
+    }
+    return true;
+  }
+</script>
