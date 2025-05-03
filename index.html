@@ -2,76 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Burn DRF Tokens</title>
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <title>DRF Wallet Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
-    input, button { padding: 10px; margin-top: 10px; }
-    #status { margin-top: 20px; font-weight: bold; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+    }
+    header {
+      background-color: #222;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 500;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .container h1 {
+      font-size: 2.2em;
+      color: #333;
+    }
+    .container p {
+      color: #555;
+      font-size: 1.1em;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <div class="logo">DRF Wallet</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="staking.html">Staking</a>
+      <a href="wallet.html">Wallet</a>
+      <a href="admin.html">Admin</a>
+      <a href="burn.html">Burn</a>
+    </nav>
+  </header>
 
-  <h2>🔥 Burn Your DRF Tokens</h2>
-  <p>Enter the amount of DRF you want to permanently destroy (burn).</p>
-
-  <button onclick="connectWallet()">Connect Wallet</button>
-  <p id="walletAddress"></p>
-
-  <input type="number" id="amountToBurn" placeholder="Enter DRF amount">
-  <br>
-  <button onclick="burnDRF()">Burn DRF</button>
-
-  <div id="status"></div>
-
-  <script>
-    const DRF_CONTRACT = "YOUR_DRF_CONTRACT_ADDRESS_HERE";
-    const BURN_ADDRESS = "0x000000000000000000000000000000000000dEaD";
-
-    const ABI = [
-      { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transfer", "outputs": [ { "name": "", "type": "bool" } ], "type": "function" },
-      { "constant": true, "inputs": [], "name": "decimals", "outputs": [ { "name": "", "type": "uint8" } ], "type": "function" }
-    ];
-
-    let web3, account;
-
-    async function connectWallet() {
-      if (window.ethereum) {
-        web3 = new Web3(window.ethereum);
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const accounts = await web3.eth.getAccounts();
-        account = accounts[0];
-        document.getElementById("walletAddress").innerText = "Connected: " + account;
-      } else {
-        alert("Please install MetaMask to use this feature.");
-      }
-    }
-
-    async function burnDRF() {
-      const amount = parseFloat(document.getElementById("amountToBurn").value);
-      if (!amount || amount <= 0) {
-        alert("Enter a valid amount.");
-        return;
-      }
-
-      const contract = new web3.eth.Contract(ABI, DRF_CONTRACT);
-      const decimals = await contract.methods.decimals().call();
-      const amountToBurn = web3.utils.toBN(amount * 10 ** decimals);
-
-      const confirmed = confirm(`Are you sure you want to permanently burn ${amount} DRF? This cannot be undone.`);
-      if (!confirmed) return;
-
-      document.getElementById("status").innerText = "⏳ Sending transaction...";
-
-      try {
-        await contract.methods.transfer(BURN_ADDRESS, amountToBurn.toString()).send({ from: account });
-        document.getElementById("status").innerText = `✅ Burn successful! ${amount} DRF has been destroyed.`;
-      } catch (error) {
-        console.error(error);
-        document.getElementById("status").innerText = "❌ Burn failed. See console for details.";
-      }
-    }
-  </script>
-
+  <div class="container">
+    <h1>Welcome to the Official DRF Wallet</h1>
+    <p>Manage your DRF, stake tokens, track transactions, and access secure tools — all in one place.</p>
+  </div>
 </body>
 </html>
