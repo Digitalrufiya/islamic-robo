@@ -1,6 +1,6 @@
 <?php
 // chat.php
-$api_key = "YOUR_OPENAI_API_KEY_HERE";
+$api_key = "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";
 $input = json_decode(file_get_contents("php://input"), true);
 $question = $input["question"] ?? "";
 
