@@ -1,98 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>DRF Wallet - Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f0;
-      margin: 0;
-    }
-    header {
-      background: #222;
-      color: #fff;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-size: 1.2em;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    main {
-      padding: 40px;
-      text-align: center;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divine Robotics – Serving Humanity with Faith</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
-
-  <body>
-<!-- DRF Exchange Calculator -->
-<div class="drf-calculator" style="background: white; padding: 20px; max-width: 400px; margin: 30px auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif;">
-  <h2 style="text-align:center;">DRF Exchange Calculator</h2>
-  <label for="usdAmount">Enter USD Amount:</label>
-  <input type="number" id="usdAmount" placeholder="e.g. 100" style="padding:10px; width:100%; margin-top:10px; border-radius:5px; border:1px solid #ccc;">
-  <button onclick="calculateDRF()" style="padding:10px; width:100%; margin-top:10px; border-radius:5px; border:none; background:#1a73e8; color:white;">Calculate</button>
-
-  <div id="output" style="display:none; margin-top:20px; background:#e9ffe9; padding:10px; border-radius:5px;">
-    <p><strong>DRF Bought @14.42:</strong> <span id="drfBuy"></span></p>
-    <p><strong>DRF Needed to Redeem @15.42:</strong> <span id="drfSell"></span></p>
-    <p><strong>DRF Loss:</strong> <span id="drfLoss"></span></p>
-
-  </div>
-</div>
-
-<script>
-  function calculateDRF() {
-    const usd = parseFloat(document.getElementById('usdAmount').value);
-    const buyRate = 14.42;
-    const sellRate = 15.42;
-
-    if (isNaN(usd) || usd <= 0) {
-      alert("Please enter a valid USD amount.");
-      return;
-    }
-
-    const drfBuy = usd * buyRate;
-    const drfSell = usd * sellRate;
-    const drfLoss = drfSell - drfBuy;
-    const lossPercent = ((drfLoss / drfBuy) * 100).toFixed(2);
-
-    document.getElementById('drfBuy').innerText = drfBuy.toFixed(2);
-    document.getElementById('drfSell').innerText = drfSell.toFixed(2);
-    document.getElementById('drfLoss').innerText = drfLoss.toFixed(2);
-    document.getElementById('lossPercent').innerText = lossPercent;
-    document.getElementById('output').style.display = 'block';
-  }
-</script>
-</body>
-
-  
 <body>
   <header>
-    <div class="logo">🚀 DRF Wallet</div>
+    <h1>🤖 Divine Robotics</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="wallet.html">Wallet</a>
-      <a href="staking.html">Staking</a>
-      <a href="burn.html">Burn</a>
-      <a href="admin.html">Admin</a>
+      <a href="#about">About</a>
+      <a href="#mission">Mission</a>
+      <a href="#pledge">Pledge</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
-  <main>
-    <h1>Welcome to the DRF Wallet</h1>
-    <p>This is the main landing page. Use the menu above to access features.</p>
-  </main>
+
+  <section id="hero">
+    <h2>Building a Future with Robots that Serve Truth & Justice</h2>
+    <p>In the Name of Allah, Most Merciful, Most High – We pledge to create robotics guided by faith, not greed.</p>
+  </section>
+
+  <section id="about">
+    <h3>About Divine Robotics</h3>
+    <p>
+      Divine Robotics is a movement of believers – engineers, visionaries, and creators – striving to build ethical, God-conscious robotics
+      that serve the Ummah and humanity with justice, mercy, and righteousness.
+    </p>
+  </section>
+
+  <section id="mission">
+    <h3>Our Mission</h3>
+    <ul>
+      <li>🤖 Design robotics that serve with compassion and fairness</li>
+      <li>🕋 Operate under Islamic ethics and divine accountability</li>
+      <li>📿 Promote tech that protects the innocent and upholds Haqq (truth)</li>
+      <li>🌍 Use AI/robotics to serve communities, not destroy them</li>
+    </ul>
+  </section>
+
+  <section id="pledge">
+    <h3>The Divine Robotics Developer Pledge</h3>
+    <blockquote>
+      <p>
+        In the Name of Allah, Most Gracious, Most Merciful — I pledge to build technologies that serve truth, justice, and mercy.
+        I will not use my knowledge for oppression, corruption, or greed. My hands and my code are witnesses before my Lord.
+      </p>
+      <footer>— A Believer in Divine Robotics</footer>
+    </blockquote>
+  </section>
+
+  <section id="contact">
+    <h3>Contact & Join Us</h3>
+    <p>Email: <a href="mailto:contact@divinerobotics.org">contact@divinerobotics.org</a></p>
+    <p>Telegram/Signal: @DivineRobotics</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Divine Robotics. All rights reserved. Guided by Faith, Powered by Knowledge.</p>
+  </footer>
 </body>
 </html>
