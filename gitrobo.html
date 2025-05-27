@@ -2,48 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Divine Robotics Bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divine Robotics - DRF Robo</title>
+  <script src="https://cdn.jsdelivr.net/npm/string-similarity/umd/string-similarity.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      padding: 20px;
-      text-align: center;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    input, button {
+    .container {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+    .robot {
+      flex: 1;
+      max-width: 300px;
+    }
+    .chat {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-box {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      background: rgba(255, 255, 255, 0.1);
       padding: 10px;
-      font-size: 16px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .chat-box div {
+      margin-bottom: 8px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      width: 100%;
+      font-size: 1rem;
+    }
+    button {
       margin-top: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #00c6ff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>🤖 Divine Robotics</h1>
-  <p>Type a message and the robot will speak it:</p>
-
-  <input type="text" id="userInput" placeholder="Type your message..." />
-  <br />
-  <button onclick="speakUserMessage()">Speak</button>
+  <div class="container">
+    <div class="robot">
+      <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_touohxv0.json" background="transparent" speed="1" style="width: 100%;" loop autoplay></lottie-player>
+    </div>
+    <div class="chat">
+      <div class="chat-box" id="chat-box"></div>
+      <input type="text" id="user-input" placeholder="Ask Divine Robo something..." />
+      <button onclick="handleUserInput()">Ask</button>
+    </div>
+  </div>
 
   <script>
+    const knowledgeBase = [
+      {
+        keywords: ["what is islam", "define islam"],
+        answer: "Islam is the religion of peace and submission to Allah, based on the Quran and teachings of Prophet Muhammad (PBUH)."
+      },
+      {
+        keywords: ["who is allah"],
+        answer: "Allah is the one true God, the Creator of everything, most merciful and compassionate."
+      },
+      {
+        keywords: ["prayer", "salah"],
+        answer: "Salah is the five daily prayers which are mandatory for Muslims to maintain their connection with Allah."
+      },
+      {
+        keywords: ["quran", "holy book"],
+        answer: "The Quran is the final revelation from Allah to mankind, delivered to the Prophet Muhammad (PBUH)."
+      }
+      // Add more entries
+    ];
+
     function speak(text) {
       const synth = window.speechSynthesis;
       const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = "en-US"; // Change to "ar-SA" for Arabic if you want
+      utter.lang = "en-US";
       synth.speak(utter);
     }
 
-    function speakUserMessage() {
-      const input = document.getElementById("userInput").value;
-      if (input.trim() !== "") {
-        speak(input);
+    function findAnswer(input) {
+      const questions = knowledgeBase.map(q => q.keywords.join(" | "));
+      const matches = questions.map((q, i) => ({
+        index: i,
+        rating: stringSimilarity.compareTwoStrings(input.toLowerCase(), q.toLowerCase())
+      }));
+      matches.sort((a, b) => b.rating - a.rating);
+      if (matches[0].rating > 0.4) {
+        return knowledgeBase[matches[0].index].answer;
+      } else {
+        return "I'm not sure how to answer that yet, but I'm learning.";
       }
     }
 
-    // Auto greet visitor on page load
+    function handleUserInput() {
+      const input = document.getElementById("user-input").value;
+      if (!input.trim()) return;
+      const response = findAnswer(input);
+
+      const box = document.getElementById("chat-box");
+      box.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
+      box.innerHTML += `<div><strong>DRF Robo:</strong> ${response}</div>`;
+      speak(response);
+      box.scrollTop = box.scrollHeight;
+
+      document.getElementById("user-input").value = "";
+    }
+
     window.onload = () => {
-      speak("As-salaamu Alaikum wa Rahmatullah, welcome to Divine Robotics.");
-    };
+      const welcome = "As-salaamu Alaikum wa Rahmatullah, welcome to Divine Robotics.";
+      document.getElementById("chat-box").innerHTML += `<div><strong>DRF Robo:</strong> ${welcome}</div>`;
+      speak(welcome);
+    }
   </script>
 </body>
 </html>
