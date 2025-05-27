@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Divine Robotics</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Divine Robotics Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      padding: 20px;
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🤖 Divine Robotics</h1>
-    <p>Building the Future with Taqwa, Truth, and Technology</p>
-  </header>
+  <h1>🤖 Divine Robotics</h1>
+  <p>Type a message and the robot will speak it:</p>
 
-  <section id="mission">
-    <h2>Our Mission</h2>
-    <p>To create spiritually-aligned, ethically built robotic systems that serve humanity in harmony with divine justice.</p>
-  </section>
+  <input type="text" id="userInput" placeholder="Type your message..." />
+  <br />
+  <button onclick="speakUserMessage()">Speak</button>
 
-  <section id="pledge">
-    <h2>Developer Pledge</h2>
-    <p>Read and join our code of honor: <a href="pledge.html">Pledge of a Mu'min Developer</a></p>
-  </section>
+  <script>
+    function speak(text) {
+      const synth = window.speechSynthesis;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "en-US"; // Change to "ar-SA" for Arabic if you want
+      synth.speak(utter);
+    }
 
-  <section id="ttsbot">
-    <h2>Meet the Voice of Wisdom</h2>
-    <p>Our TTS Bot can greet you with Salaam or speak Quranic verses. More coming soon!</p>
-    <button onclick="speakSalaam()">Say Salaam</button>
-    <button onclick="speakVerse()">Speak a Quran Verse</button>
-  </section>
+    function speakUserMessage() {
+      const input = document.getElementById("userInput").value;
+      if (input.trim() !== "") {
+        speak(input);
+      }
+    }
 
-  <footer>
-    <p>&copy; 2025 Divine Robotics. Built with Faith.</p>
-  </footer>
-
-  <script src="bot.js"></script>
+    // Auto greet visitor on page load
+    window.onload = () => {
+      speak("As-salaamu Alaikum wa Rahmatullah, welcome to Divine Robotics.");
+    };
+  </script>
 </body>
 </html>
