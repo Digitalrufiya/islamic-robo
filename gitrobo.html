@@ -125,16 +125,23 @@
         return;
       }
 
-      // Simple pre-set answers (can connect to ChatGPT API or similar later)
       const sampleAnswers = {
         prayer: "Prayer (Salah) connects us to Allah. Never leave it.",
         quran: "The Quran is guidance for all humanity. Read it daily.",
         patience: "With patience, victory comes. (Quran 3:200)",
         life: "This life is a test. Pass it with faith and good deeds.",
+        love: "Love others for the sake of Allah, and you will be loved by Him.",
+        fasting: "Fasting teaches self-discipline and brings us closer to Allah.",
+        charity: "Giving in charity never decreases wealth. (Sahih Muslim)"
       };
 
       let matched = Object.keys(sampleAnswers).find(k => q.toLowerCase().includes(k));
-      box.innerText = matched ? sampleAnswers[matched] : "InshaAllah, the answer lies within your heart and the Quran. Keep asking with sincerity.";
+      box.innerText = matched
+        ? sampleAnswers[matched]
+        : "InshaAllah, the answer lies within your heart and the Quran. Keep asking with sincerity.";
+
+      // Clear the input after answering
+      document.getElementById("userQuestion").value = "";
     }
   </script>
 </body>
