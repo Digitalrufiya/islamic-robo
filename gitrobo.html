@@ -2,143 +2,147 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Divine Robotics - DRF Robo</title>
-  <script src="https://cdn.jsdelivr.net/npm/string-similarity/umd/string-similarity.min.js"></script>
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Divin DRF Robo - Q&A Session</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Roboto&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      background: url('https://i.imgur.com/PhQ5qJ4.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow: hidden;
     }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+
     .container {
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
-    .robot {
-      flex: 1;
-      max-width: 300px;
-    }
-    .chat {
-      flex: 2;
+      position: relative;
+      z-index: 2;
       display: flex;
       flex-direction: column;
+      height: 100vh;
+      padding: 2rem;
     }
+
+    .header {
+      font-family: 'Amiri', serif;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #ffd700;
+    }
+
     .chat-box {
-      height: 300px;
+      flex: 1;
       overflow-y: auto;
-      border: 1px solid #ccc;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
     }
-    .chat-box div {
-      margin-bottom: 8px;
+
+    .chat-message {
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
     }
+
+    .user { text-align: right; }
+    .bot { text-align: left; color: #a8e6ff; }
+
+    .input-box {
+      display: flex;
+      margin-top: 1rem;
+    }
+
     input[type="text"] {
-      padding: 10px;
-      border-radius: 5px;
+      flex: 1;
+      padding: 0.75rem;
       border: none;
-      width: 100%;
+      border-radius: 6px 0 0 6px;
       font-size: 1rem;
     }
+
     button {
-      margin-top: 10px;
-      padding: 10px;
+      padding: 0 1rem;
       border: none;
-      border-radius: 5px;
-      background: #00c6ff;
+      background-color: #00b894;
       color: white;
       font-weight: bold;
+      border-radius: 0 6px 6px 0;
       cursor: pointer;
+    }
+
+    .footer-image {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 0;
+      max-height: 40vh;
+    }
+
+    @media (max-width: 768px) {
+      .footer-image {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
   <div class="container">
-    <div class="robot">
-      <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_touohxv0.json" background="transparent" speed="1" style="width: 100%;" loop autoplay></lottie-player>
+    <div class="header">
+      🤖 Divin DRF Robo – Gifted Q&A from Allah
     </div>
-    <div class="chat">
-      <div class="chat-box" id="chat-box"></div>
-      <input type="text" id="user-input" placeholder="Ask Divine Robo something..." />
-      <button onclick="handleUserInput()">Ask</button>
+    <div class="chat-box" id="chatBox">
+      <div class="chat-message bot">السلام عليكم! I am Divin DRF Robo – your spiritual guide. Ask me anything related to Islam, Quran, life purpose, or technology in faith. 🌙</div>
+    </div>
+    <div class="input-box">
+      <input type="text" id="userInput" placeholder="Type your question here..." />
+      <button onclick="sendMessage()">Ask</button>
     </div>
   </div>
+  <img src="https://i.imgur.com/k0Hedzb.png" alt="Glowing Quran & Robot" class="footer-image" />
 
   <script>
-    const knowledgeBase = [
-      {
-        keywords: ["what is islam", "define islam"],
-        answer: "Islam is the religion of peace and submission to Allah, based on the Quran and teachings of Prophet Muhammad (PBUH)."
-      },
-      {
-        keywords: ["who is allah"],
-        answer: "Allah is the one true God, the Creator of everything, most merciful and compassionate."
-      },
-      {
-        keywords: ["prayer", "salah"],
-        answer: "Salah is the five daily prayers which are mandatory for Muslims to maintain their connection with Allah."
-      },
-      {
-        keywords: ["quran", "holy book"],
-        answer: "The Quran is the final revelation from Allah to mankind, delivered to the Prophet Muhammad (PBUH)."
-      }
-      // Add more entries
-    ];
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
 
-    function speak(text) {
-      const synth = window.speechSynthesis;
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = "en-US";
-      synth.speak(utter);
+    const answers = {
+      "quran": "The Quran is the final revelation sent by Allah to guide humanity. 📖",
+      "allah": "Allah is the One and Only, the Eternal Creator. 🌟",
+      "robot": "I am your DRF Robo — a divine assistant for spreading light (نور) and understanding.",
+      "purpose": "The purpose of life in Islam is to worship Allah and live righteously.",
+      "salat": "Salat is the daily prayer that keeps a Muslim connected to Allah.",
+      "fasting": "Fasting in Ramadan purifies the soul and strengthens faith.",
+    };
+
+    function sendMessage() {
+      const question = userInput.value.trim();
+      if (!question) return;
+      appendMessage("user", question);
+      userInput.value = "";
+      setTimeout(() => {
+        const key = Object.keys(answers).find(k => question.toLowerCase().includes(k));
+        const reply = key ? answers[key] : "Let me reflect upon that… 🤖 Please seek guidance through the Quran and Hadith.";
+        appendMessage("bot", reply);
+      }, 600);
     }
 
-    function findAnswer(input) {
-      const questions = knowledgeBase.map(q => q.keywords.join(" | "));
-      const matches = questions.map((q, i) => ({
-        index: i,
-        rating: stringSimilarity.compareTwoStrings(input.toLowerCase(), q.toLowerCase())
-      }));
-      matches.sort((a, b) => b.rating - a.rating);
-      if (matches[0].rating > 0.4) {
-        return knowledgeBase[matches[0].index].answer;
-      } else {
-        return "I'm not sure how to answer that yet, but I'm learning.";
-      }
-    }
-
-    function handleUserInput() {
-      const input = document.getElementById("user-input").value;
-      if (!input.trim()) return;
-      const response = findAnswer(input);
-
-      const box = document.getElementById("chat-box");
-      box.innerHTML += `<div><strong>You:</strong> ${input}</div>`;
-      box.innerHTML += `<div><strong>DRF Robo:</strong> ${response}</div>`;
-      speak(response);
-      box.scrollTop = box.scrollHeight;
-
-      document.getElementById("user-input").value = "";
-    }
-
-    window.onload = () => {
-      const welcome = "As-salaamu Alaikum wa Rahmatullah, welcome to Divine Robotics.";
-      document.getElementById("chat-box").innerHTML += `<div><strong>DRF Robo:</strong> ${welcome}</div>`;
-      speak(welcome);
+    function appendMessage(sender, message) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `chat-message ${sender}`;
+      msgDiv.textContent = message;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
   </script>
 </body>
