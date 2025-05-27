@@ -1,64 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Divine Robotics – Serving Humanity with Faith</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<title>Divine Robotics - Islamic Knowledge Bot</title>
 </head>
 <body>
-  <header>
-    <h1>🤖 Divine Robotics</h1>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#mission">Mission</a>
-      <a href="#pledge">Pledge</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<h2>Ask me anything about Islam:</h2>
+<input type="text" id="userInput" placeholder="Type your question..." />
+<button onclick="answerQuestion()">Ask</button>
 
-  <section id="hero">
-    <h2>Building a Future with Robots that Serve Truth & Justice</h2>
-    <p>In the Name of Allah, Most Merciful, Most High – We pledge to create robotics guided by faith, not greed.</p>
-  </section>
+<p id="botAnswer"></p>
 
-  <section id="about">
-    <h3>About Divine Robotics</h3>
-    <p>
-      Divine Robotics is a movement of believers – engineers, visionaries, and creators – striving to build ethical, God-conscious robotics
-      that serve the Ummah and humanity with justice, mercy, and righteousness.
-    </p>
-  </section>
+<script>
+const knowledgeBase = [
+  {
+    keywords: ["what is islam", "define islam"],
+    answer: "Islam is the religion of peace and submission to Allah, based on the Quran and teachings of Prophet Muhammad (PBUH)."
+  },
+  {
+    keywords: ["who is allah"],
+    answer: "Allah is the one true God, the Creator of everything, most merciful and compassionate."
+  },
+  {
+    keywords: ["prayer", "salah"],
+    answer: "Salah is the five daily prayers which are mandatory for Muslims to maintain their connection with Allah."
+  }
+];
 
-  <section id="mission">
-    <h3>Our Mission</h3>
-    <ul>
-      <li>🤖 Design robotics that serve with compassion and fairness</li>
-      <li>🕋 Operate under Islamic ethics and divine accountability</li>
-      <li>📿 Promote tech that protects the innocent and upholds Haqq (truth)</li>
-      <li>🌍 Use AI/robotics to serve communities, not destroy them</li>
-    </ul>
-  </section>
+function speak(text) {
+  const synth = window.speechSynthesis;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "en-US";
+  synth.speak(utter);
+}
 
-  <section id="pledge">
-    <h3>The Divine Robotics Developer Pledge</h3>
-    <blockquote>
-      <p>
-        In the Name of Allah, Most Gracious, Most Merciful — I pledge to build technologies that serve truth, justice, and mercy.
-        I will not use my knowledge for oppression, corruption, or greed. My hands and my code are witnesses before my Lord.
-      </p>
-      <footer>— A Believer in Divine Robotics</footer>
-    </blockquote>
-  </section>
+function answerQuestion() {
+  const question = document.getElementById("userInput").value.toLowerCase();
+  let foundAnswer = "Sorry, I don't have an answer for that yet. Please ask another question.";
 
-  <section id="contact">
-    <h3>Contact & Join Us</h3>
-    <p>Email: <a href="mailto:contact@divinerobotics.org">contact@divinerobotics.org</a></p>
-    <p>Telegram/Signal: @DivineRobotics</p>
-  </section>
+  for (const entry of knowledgeBase) {
+    for (const keyword of entry.keywords) {
+      if (question.includes(keyword)) {
+        foundAnswer = entry.answer;
+        break;
+      }
+    }
+    if (foundAnswer !== "Sorry, I don't have an answer for that yet. Please ask another question.") {
+      break;
+    }
+  }
 
-  <footer>
-    <p>&copy; 2025 Divine Robotics. All rights reserved. Guided by Faith, Powered by Knowledge.</p>
-  </footer>
+  document.getElementById("botAnswer").textContent = foundAnswer;
+  speak(foundAnswer);
+}
+</script>
 </body>
 </html>
