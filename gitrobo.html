@@ -3,146 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Divin DRF Robo - Q&A Session</title>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Roboto&display=swap" rel="stylesheet">
+  <title>Divin DRF Robo – Q&A</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: url('https://i.imgur.com/PhQ5qJ4.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      overflow: hidden;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1;
-    }
-
-    .container {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      padding: 2rem;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #0f172a, #1e293b);
+      color: white;
+      text-align: center;
+      padding: 20px;
     }
 
     .header {
+      font-size: 1.8em;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .calligraphy {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      opacity: 0.07;
+      font-size: 4em;
       font-family: 'Amiri', serif;
-      font-size: 2rem;
-      text-align: center;
-      margin-bottom: 1rem;
-      color: #ffd700;
+      pointer-events: none;
     }
 
-    .chat-box {
-      flex: 1;
-      overflow-y: auto;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 1rem;
-      border-radius: 12px;
-      backdrop-filter: blur(8px);
+    .robo-container {
+      margin-top: 40px;
+      position: relative;
     }
 
-    .chat-message {
-      margin-bottom: 1rem;
-      padding: 0.75rem;
-      background: rgba(255, 255, 255, 0.08);
+    .robo-img {
+      width: 180px;
+      max-width: 80%;
+    }
+
+    .quran-glow {
+      width: 60px;
+      position: absolute;
+      bottom: -20px;
+      right: 40%;
+      filter: drop-shadow(0 0 10px #00ffc8);
+    }
+
+    .qa-box {
+      margin-top: 30px;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    input, button {
+      padding: 10px;
+      width: 90%;
+      margin-top: 10px;
       border-radius: 8px;
-    }
-
-    .user { text-align: right; }
-    .bot { text-align: left; color: #a8e6ff; }
-
-    .input-box {
-      display: flex;
-      margin-top: 1rem;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      padding: 0.75rem;
       border: none;
-      border-radius: 6px 0 0 6px;
-      font-size: 1rem;
+      font-size: 1em;
     }
 
     button {
-      padding: 0 1rem;
-      border: none;
-      background-color: #00b894;
+      background: #10b981;
       color: white;
       font-weight: bold;
-      border-radius: 0 6px 6px 0;
       cursor: pointer;
+      margin-top: 15px;
     }
 
-    .footer-image {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      z-index: 0;
-      max-height: 40vh;
+    .answer {
+      margin-top: 15px;
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 8px;
+      min-height: 50px;
     }
 
-    @media (max-width: 768px) {
-      .footer-image {
-        display: none;
+    @media (max-width: 600px) {
+      .quran-glow {
+        width: 40px;
+        right: 35%;
+      }
+
+      .header {
+        font-size: 1.5em;
+      }
+
+      .calligraphy {
+        font-size: 3em;
       }
     }
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="header">
-      🤖 Divin DRF Robo – Gifted Q&A from Allah
-    </div>
-    <div class="chat-box" id="chatBox">
-      <div class="chat-message bot">السلام عليكم! I am Divin DRF Robo – your spiritual guide. Ask me anything related to Islam, Quran, life purpose, or technology in faith. 🌙</div>
-    </div>
-    <div class="input-box">
-      <input type="text" id="userInput" placeholder="Type your question here..." />
-      <button onclick="sendMessage()">Ask</button>
-    </div>
+  <div class="calligraphy">الله</div>
+
+  <div class="header">🤖 Divin DRF Robo – Ask with Faith</div>
+
+  <div class="robo-container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Robot_icon_black.svg" class="robo-img" alt="DRF Robot" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Quran_Kareem.svg/1024px-Quran_Kareem.svg.png" class="quran-glow" alt="Quran Glow" />
   </div>
-  <img src="https://i.imgur.com/k0Hedzb.png" alt="Glowing Quran & Robot" class="footer-image" />
+
+  <div class="qa-box">
+    <input type="text" id="userQuestion" placeholder="Ask a question (Islamic or life-related)..."/>
+    <button onclick="answerQuestion()">Ask DRF Robo</button>
+    <div class="answer" id="answerBox">Your answer will appear here...</div>
+  </div>
 
   <script>
-    const chatBox = document.getElementById("chatBox");
-    const userInput = document.getElementById("userInput");
+    function answerQuestion() {
+      const q = document.getElementById("userQuestion").value.trim();
+      const box = document.getElementById("answerBox");
 
-    const answers = {
-      "quran": "The Quran is the final revelation sent by Allah to guide humanity. 📖",
-      "allah": "Allah is the One and Only, the Eternal Creator. 🌟",
-      "robot": "I am your DRF Robo — a divine assistant for spreading light (نور) and understanding.",
-      "purpose": "The purpose of life in Islam is to worship Allah and live righteously.",
-      "salat": "Salat is the daily prayer that keeps a Muslim connected to Allah.",
-      "fasting": "Fasting in Ramadan purifies the soul and strengthens faith.",
-    };
+      if (!q) {
+        box.innerText = "Please enter a question for DRF Robo.";
+        return;
+      }
 
-    function sendMessage() {
-      const question = userInput.value.trim();
-      if (!question) return;
-      appendMessage("user", question);
-      userInput.value = "";
-      setTimeout(() => {
-        const key = Object.keys(answers).find(k => question.toLowerCase().includes(k));
-        const reply = key ? answers[key] : "Let me reflect upon that… 🤖 Please seek guidance through the Quran and Hadith.";
-        appendMessage("bot", reply);
-      }, 600);
-    }
+      // Simple pre-set answers (can connect to ChatGPT API or similar later)
+      const sampleAnswers = {
+        prayer: "Prayer (Salah) connects us to Allah. Never leave it.",
+        quran: "The Quran is guidance for all humanity. Read it daily.",
+        patience: "With patience, victory comes. (Quran 3:200)",
+        life: "This life is a test. Pass it with faith and good deeds.",
+      };
 
-    function appendMessage(sender, message) {
-      const msgDiv = document.createElement("div");
-      msgDiv.className = `chat-message ${sender}`;
-      msgDiv.textContent = message;
-      chatBox.appendChild(msgDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
+      let matched = Object.keys(sampleAnswers).find(k => q.toLowerCase().includes(k));
+      box.innerText = matched ? sampleAnswers[matched] : "InshaAllah, the answer lies within your heart and the Quran. Keep asking with sincerity.";
     }
   </script>
 </body>
