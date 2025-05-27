@@ -1,58 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Divine Robotics - Islamic Knowledge Bot</title>
-</head>
-<body>
-<h2>Ask me anything about Islam:</h2>
-<input type="text" id="userInput" placeholder="Type your question..." />
-<button onclick="answerQuestion()">Ask</button>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Divine Robotics | The Future of Spiritual AI</title>
+  <style>
+    /* Reset & basics */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #eaeaea;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-<p id="botAnswer"></p>
+    header {
+      padding: 2rem 3rem;
+      text-align: center;
+      background: rgba(22,33,62,0.85);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
 
-<script>
-const knowledgeBase = [
-  {
-    keywords: ["what is islam", "define islam"],
-    answer: "Islam is the religion of peace and submission to Allah, based on the Quran and teachings of Prophet Muhammad (PBUH)."
-  },
-  {
-    keywords: ["who is allah"],
-    answer: "Allah is the one true God, the Creator of everything, most merciful and compassionate."
-  },
-  {
-    keywords: ["prayer", "salah"],
-    answer: "Salah is the five daily prayers which are mandatory for Muslims to maintain their connection with Allah."
-  }
-];
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      color: #f4d35e;
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 15px #f4d35e;
+    }
 
-function speak(text) {
-  const synth = window.speechSynthesis;
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = "en-US";
-  synth.speak(utter);
-}
+    header p {
+      font-size: 1.3rem;
+      margin-top: 0.4rem;
+      font-style: italic;
+      color: #fff;
+      text-shadow: 0 0 5px #fff;
+    }
 
-function answerQuestion() {
-  const question = document.getElementById("userInput").value.toLowerCase();
-  let foundAnswer = "Sorry, I don't have an answer for that yet. Please ask another question.";
+    main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+      padding: 3rem;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-  for (const entry of knowledgeBase) {
-    for (const keyword of entry.keywords) {
-      if (question.includes(keyword)) {
-        foundAnswer = entry.answer;
-        break;
+    /* Left section */
+    .about-section {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 10px #f4d35eaa;
+    }
+
+    .about-section h2 {
+      color: #f4d35e;
+      margin-top: 0;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .about-section p {
+      line-height: 1.6;
+      font-size: 1.1rem;
+      color: #ddd;
+    }
+
+    /* Right section - Chatbot */
+    .chatbot-section {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 15px #00b894aa;
+      max-height: 600px;
+    }
+
+    .chatbot-header {
+      background: #00b894;
+      padding: 1rem;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.4rem;
+      text-align: center;
+      text-shadow: 0 0 10px #004d3c;
+    }
+
+    .chat-window {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      font-size: 1.05rem;
+    }
+
+    .chat-message {
+      margin-bottom: 1rem;
+      max-width: 75%;
+      padding: 0.7rem 1rem;
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+
+    .user-message {
+      background: #0984e3;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+      box-shadow: 0 0 8px #0984e3aa;
+    }
+
+    .bot-message {
+      background: #00b894;
+      color: white;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+      box-shadow: 0 0 8px #00b894aa;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 1rem;
+      border-top: 1px solid #00b894;
+      background: rgba(0,0,0,0.1);
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 0.75rem 1rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      outline: none;
+      box-shadow: inset 0 0 8px #00b894aa;
+      background: #16213e;
+      color: #eaeaea;
+    }
+
+    button {
+      background: #f4d35e;
+      color: #1a1a2e;
+      border: none;
+      padding: 0 1.5rem;
+      margin-left: 1rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 0 10px #f4d35e;
+    }
+
+    button:hover {
+      background: #ddb843;
+    }
+
+    footer {
+      padding: 1rem 3rem;
+      background: #111822;
+      color: #777;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @media(max-width: 900px) {
+      main {
+        flex-direction: column;
+        padding: 2rem;
+      }
+      .chatbot-section, .about-section {
+        max-height: none;
       }
     }
-    if (foundAnswer !== "Sorry, I don't have an answer for that yet. Please ask another question.") {
-      break;
-    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Divine Robotics</h1>
+    <p>Empowering Justice & Truth through Spiritual AI</p>
+  </header>
+
+  <main>
+    <section class="about-section">
+      <h2>About Divine Robotics</h2>
+      <p>
+        Divine Robotics is a spiritual initiative to create AI-powered robots guided by the principles of Islam — 
+        serving humanity with truth, justice, and mercy, under the command of Allah Almighty.
+      </p>
+      <p>
+        Our mission is to build technology that upholds Haqq (truth) and spreads the light of Islam in this new era.
+      </p>
+      <h3>Muslim Developer’s Pledge</h3>
+      <p>
+        We pledge to build and code with honesty, respect, and a dedication to Islamic values — ensuring our creations 
+        serve goodness and righteousness.
+      </p>
+    </section>
+
+    <section class="chatbot-section">
+      <div class="chatbot-header">Ask the Divine Robot</div>
+      <div class="chat-window" id="chatWindow">
+        <!-- Chat messages will appear here -->
+      </div>
+      <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your question here..." />
+        <button id="sendBtn">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Divine Robotics. All rights reserved.
+  </footer>
+
+<script>
+  // Simple chat bot logic using your JSON knowledge base below
+  const knowledgeBase = [
+    {
+      keywords: ["what is islam", "define islam"],
+      answer: "Islam is the religion of peace and submission to Allah, based on the Quran and teachings of Prophet Muhammad (PBUH)."
+    },
+    {
+      keywords: ["who is allah"],
+      answer: "Allah is the one true God, the Creator of everything, most merciful and compassionate."
+    },
+    {
+      keywords: ["prayer", "salah"],
+      answer: "Salah is the five daily prayers which are mandatory for Muslims to maintain their connection with Allah."
+    },
+    // Add more knowledge as needed
+  ];
+
+  const chatWindow = document.getElementById('chatWindow');
+  const userInput = document.getElementById('userInput');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function addMessage(text, sender) {
+    const div = document.createElement('div');
+    div.classList.add('chat-message');
+    div.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+    div.textContent = text;
+    chatWindow.appendChild(div);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
-  document.getElementById("botAnswer").textContent = foundAnswer;
-  speak(foundAnswer);
-}
+  function findAnswer(input) {
+    input = input.toLowerCase();
+    for (const item of knowledgeBase) {
+      for (const keyword of item.keywords) {
+        if(input.includes(keyword)) {
+          return item.answer;
+        }
+      }
+    }
+    return "Sorry, I don't have an answer for that right now, but I will learn.";
+  }
+
+  sendBtn.addEventListener('click', () => {
+    const question = userInput.value.trim();
+    if(!question) return;
+
+    addMessage(question, 'user');
+    const answer = findAnswer(question);
+    addMessage(answer, 'bot');
+
+    // Optional: Text to Speech
+    if('speechSynthesis' in window){
+      const utter = new SpeechSynthesisUtterance(answer);
+      utter.lang = 'en-US';
+      window.speechSynthesis.speak(utter);
+    }
+
+    userInput.value = '';
+  });
+
+  userInput.addEventListener('keypress', (e) => {
+    if(e.key === 'Enter'){
+      sendBtn.click();
+    }
+  });
+
 </script>
+
 </body>
 </html>
