@@ -1,0 +1,64 @@
+{
+  "questions": [
+    {
+      "keywords": ["what is islam", "define islam", "islam meaning"],
+      "answer": "Islam is the religion of peace and submission to Allah, based on the Quran and teachings of Prophet Muhammad (peace be upon him)."
+    },
+    {
+      "keywords": ["who is allah", "allah meaning", "god in islam"],
+      "answer": "Allah is the one true God, the Creator of everything, most merciful and compassionate."
+    },
+    {
+      "keywords": ["what is quran", "define quran", "holy book"],
+      "answer": "The Quran is the holy book of Islam, revealed to Prophet Muhammad (PBUH) over 23 years, guiding Muslims in faith and practice."
+    },
+    {
+      "keywords": ["what is salah", "prayer", "daily prayers", "salah meaning"],
+      "answer": "Salah is the five daily prayers which are mandatory for Muslims to maintain their connection with Allah."
+    },
+    {
+      "keywords": ["who is prophet muhammad", "muhammad", "prophet in islam"],
+      "answer": "Prophet Muhammad (peace be upon him) is the final messenger of Allah, who delivered the Quran and showed the perfect example of how to live."
+    },
+    {
+      "keywords": ["what is hadith", "hadith meaning", "sayings of prophet"],
+      "answer": "Hadith are recorded sayings, actions, and approvals of Prophet Muhammad (PBUH), which guide Muslims in understanding and practicing Islam."
+    },
+    {
+      "keywords": ["what is zakat", "zakat meaning", "charity in islam"],
+      "answer": "Zakat is a mandatory form of charity in Islam, requiring Muslims to give a portion of their wealth to help the needy."
+    },
+    {
+      "keywords": ["what is fasting", "fasting in ramadan", "ramadan", "sawm"],
+      "answer": "Fasting during the month of Ramadan is one of the five pillars of Islam, where Muslims abstain from food, drink, and other invalidators from dawn until sunset."
+    },
+    {
+      "keywords": ["what is hajj", "hajj meaning", "pilgrimage"],
+      "answer": "Hajj is the pilgrimage to Mecca that every Muslim must perform at least once in their lifetime, if physically and financially able."
+    },
+    {
+      "keywords": ["what is tawheed", "tawhid meaning", "oneness of allah"],
+      "answer": "Tawheed is the Islamic belief in the oneness and uniqueness of Allah, rejecting any partners or equals."
+    },
+    {
+      "keywords": ["what is halal", "halal meaning", "permissible"],
+      "answer": "Halal means lawful or permissible according to Islamic law."
+    },
+    {
+      "keywords": ["what is haram", "haram meaning", "forbidden"],
+      "answer": "Haram means forbidden or prohibited by Islamic law."
+    },
+    {
+      "keywords": ["importance of truth", "truth in islam", "haqq"],
+      "answer": "Islam commands speaking the truth, standing for justice, and acting with integrity in all affairs."
+    },
+    {
+      "keywords": ["dua for guidance", "prayer for guidance", "istikhara"],
+      "answer": "Dua for guidance includes prayers like Istikhara, asking Allah to guide towards what is best."
+    },
+    {
+      "keywords": ["peace be upon him", "pbuh", "salawat"],
+      "answer": "Muslims say 'peace be upon him' (PBUH) or send salutations (salawat) whenever mentioning Prophet Muhammad to show respect."
+    }
+  ]
+}
