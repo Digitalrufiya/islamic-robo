@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Divine DRF Robo</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
-  <div id="overlay">
-    <h1>🤖 Divine DRF Robo</h1>
-    <p>Guiding with Truth | Techno-Tawheed Protocol</p>
+  <div class="container">
+    <h1>🕋 Divine DRF Robo</h1>
+    <p class="tagline">Digital Reminder of Fear Allah</p>
+    <div id="output" class="output-box">
+      <p>Type your question about Islam below 👇</p>
+    </div>
+    <textarea id="input" placeholder="Ask something about Islam, Qur’an, Taqwā…"></textarea>
+    <button onclick="askDRF()">Ask</button>
   </div>
-  <canvas id="canvas"></canvas>
-  <script type="module" src="main.js"></script>
+  <footer>📿 Remember Allah Often | DRF Protocol v1.0</footer>
+
+  <script src="main.js"></script>
 </body>
 </html>
