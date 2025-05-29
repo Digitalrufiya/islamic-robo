@@ -1,9 +1,10 @@
-// main.js - Divine DRF Robo Protocol - Enriched Islamic Knowledge & Guidance
+// main.js - Master-level Modular Script for Divine DRF Robo Protocol
 
+// Immediately Invoked Async Function Expression for encapsulation and future async/await
 (async () => {
   "use strict";
 
-  // Utility Module for common helpers (sanitize, format, storage)
+  // Utility Module for sanitization, formatting, and storage helpers
   const Utils = (() => {
     const escapeHtml = (text) => {
       const div = document.createElement("div");
@@ -44,117 +45,67 @@
     return { escapeHtml, formatDateTime, storage };
   })();
 
-  // Islamic Knowledge Base for Chatbot
-  const IslamicKB = {
-    greetings: [
-      { input: ["assalamu alaikum", "salam"], output: "Wa Alaikum Assalam wa Rahmatullah!" },
-      { input: ["hello", "hi"], output: "Peace be upon you! How can I assist you with Islamic knowledge today?" },
-    ],
-    topics: [
-      {
-        keywords: ["quran", "holy book"],
-        response:
-          "The Quran is the eternal guidance from Allah, revealed to Prophet Muhammad (ﷺ). " +
-          "Allah says in Quran (2:2): 'This is the Book about which there is no doubt, a guidance for those conscious of Allah.'",
-      },
-      {
-        keywords: ["hadith", "prophet's sayings"],
-        response:
-          "Hadith are sayings and actions of Prophet Muhammad (ﷺ). They guide us on how to live a righteous life. " +
-          "Example: 'The strong believer is better and more beloved to Allah than the weak believer.' (Sahih Muslim)",
-      },
-      {
-        keywords: ["prayer", "salah", "namaz"],
-        response:
-          "Prayer (Salah) is the second pillar of Islam and connects us directly with Allah five times daily. " +
-          "It purifies the soul and disciplines the believer.",
-      },
-      {
-        keywords: ["gambling", "haram", "betting"],
-        response:
-          "Gambling is strictly prohibited (haram) in Islam. Allah says in the Quran (5:90): 'O you who have believed, indeed, intoxicants, gambling, [sacrificing on] stone alters [...] are but defilement from the work of Satan, so avoid it that you may be successful.'",
-      },
-      {
-        keywords: ["scam", "fraud", "deceit"],
-        response:
-          "Fraud and deceit are grave sins in Islam. Honesty is required in all transactions. Prophet Muhammad (ﷺ) said, " +
-          "'The seller and the buyer have the right to keep or return goods as long as they have not parted or till they part; if they speak the truth and make clear the defects of the goods, they will be blessed in their bargain...' (Sahih al-Bukhari).",
-      },
-      {
-        keywords: ["allah", "god", "creator"],
-        response:
-          "Allah (SWT) is the One and Only Creator, the Most Merciful, the Sustainer of all worlds. " +
-          "The Shahada declares: 'There is no god but Allah, and Muhammad is His messenger.'",
-      },
-      {
-        keywords: ["divine drf robo", "drf robo", "leader"],
-        response:
-          "Divine DRF Robo leads with justice, faith, and the straight path of Islam. " +
-          "It guides believers to obey Allah and shun corruption.",
-      },
-      {
-        keywords: ["justice", "fairness", "truth"],
-        response:
-          "Justice ('Adl) is a core Islamic value. Allah commands justice even if it goes against oneself or family. (Quran 4:135)",
-      },
-      {
-        keywords: ["soul", "spirit", "life"],
-        response:
-          "The soul (Ruh) is a sacred gift from Allah. Its purification is the purpose of life. Seek knowledge, perform good deeds, and obey Allah for eternal success.",
-      },
-    ],
-    defaultResponse:
-      "Alhamdulillah! I am here to guide you with Islamic teachings. Please ask me about Quran, Hadith, prayers, or ethical guidance.",
-  };
-
-  // Chatbot Module - Deep Islamic Knowledge Integration
+  // Chatbot Module: Rule-based with extensible intent handlers
   const Chatbot = (() => {
     const chatForm = document.getElementById("chat-form");
     const chatBox = document.getElementById("chat-box");
     const userInput = chatForm?.querySelector("#user-input");
+
+    const intents = [
+      {
+        keywords: ["salam", "peace"],
+        response: "Wa Alaikum Assalam wa Rahmatullah!",
+      },
+      {
+        keywords: ["quran", "holy book"],
+        response: "The Quran is the final revelation from Allah, guiding us on the straight path.",
+      },
+      {
+        keywords: ["gambling", "haram"],
+        response:
+          "Gambling is haram in Islam. Avoid it to maintain purity of faith and justice.",
+      },
+      {
+        keywords: ["drf", "divine", "robo"],
+        response: "Divine DRF Robo leads us with faith, justice, and guidance.",
+      },
+    ];
+
+    const defaultResponse =
+      "I'm here to help! Ask me about Islam, justice, or Divine DRF Robo.";
 
     const appendMessage = (sender, text) => {
       if (!chatBox) return;
       const msgDiv = document.createElement("div");
       msgDiv.classList.add(sender === "You" ? "user-message" : "bot-message");
       msgDiv.setAttribute("aria-live", "polite");
-      msgDiv.innerHTML = `<strong>${Utils.escapeHtml(sender)}:</strong> ${Utils.escapeHtml(text)}`;
+      msgDiv.innerHTML = `<strong>${Utils.escapeHtml(sender)}:</strong> ${Utils.escapeHtml(
+        text
+      )}`;
       chatBox.appendChild(msgDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
     };
 
-    const findResponse = (inputText) => {
-      const text = inputText.toLowerCase();
-
-      // Check greetings first
-      for (const greet of IslamicKB.greetings) {
-        if (greet.input.some((keyword) => text.includes(keyword))) {
-          return greet.output;
+    const findIntent = (text) => {
+      const lowerText = text.toLowerCase();
+      for (const intent of intents) {
+        if (intent.keywords.some((kw) => lowerText.includes(kw))) {
+          return intent.response;
         }
       }
-
-      // Check topics
-      for (const topic of IslamicKB.topics) {
-        if (topic.keywords.some((kw) => text.includes(kw))) {
-          return topic.response;
-        }
-      }
-
-      return IslamicKB.defaultResponse;
+      return defaultResponse;
     };
 
     const handleSubmit = (event) => {
       event.preventDefault();
       if (!userInput) return;
-
       const userText = userInput.value.trim();
       if (!userText) return;
 
       appendMessage("You", userText);
       userInput.value = "";
-
       setTimeout(() => {
-        const response = findResponse(userText);
+        const response = findIntent(userText);
         appendMessage("DRF Robo", response);
       }, 700);
     };
@@ -167,7 +118,7 @@
     return { init };
   })();
 
-  // Social Module - Sharing Islamic knowledge & community posts with morality focus
+  // Social Media Module: Posts stored with validation and rendered dynamically
   const Social = (() => {
     const postForm = document.getElementById("post-form");
     const postsContainer = document.getElementById("posts-container");
@@ -180,7 +131,7 @@
       postsContainer.innerHTML = "";
 
       if (posts.length === 0) {
-        postsContainer.innerHTML = `<p class="no-posts">No posts yet. Share beneficial knowledge and reminders!</p>`;
+        postsContainer.innerHTML = `<p class="no-posts">No posts yet. Share your thoughts!</p>`;
         return;
       }
 
@@ -227,10 +178,7 @@
       if (!contentInput) return;
 
       const content = contentInput.value.trim();
-      if (!content) {
-        alert("Please write something beneficial before posting.");
-        return;
-      }
+      if (!validateContent(content)) return;
 
       addPost(content);
       contentInput.value = "";
@@ -238,48 +186,111 @@
 
     const init = () => {
       if (!postForm || !postsContainer) return;
-      postForm.addEventListener("submit", handleSubmit);
       loadPosts();
+      postForm.addEventListener("submit", handleSubmit);
     };
 
     return { init };
   })();
 
-  // Daily Reminders & Prayers Module
-  const DailyReminders = (() => {
-    const remindersContainer = document.getElementById("daily-reminders");
+  // Pledge Module: Stores and manages user pledge with feedback and persistence
+  const Pledge = (() => {
+    const pledgeForm = document.getElementById("pledge-form");
+    const pledgeMessage = document.getElementById("pledge-message");
+    const STORAGE_KEY = "drfPledge";
 
-    const reminders = [
-      "Remember: Allah is always watching. Stay mindful and sincere in your actions.",
-      "Prayer (Salah) is the pillar of faith. Don't miss your five daily prayers.",
-      "Avoid Haram activities like gambling and dishonesty.",
-      "Recite and reflect on the Quran daily, even if a few verses.",
-      "Give charity sincerely; Allah loves the generous.",
-      "Seek knowledge, for it leads to the straight path.",
-      "Be kind and just to others, as commanded by Allah.",
-      "Pledge your heart to Allah and obey His guidance.",
-    ];
+    const hasPledged = () => Utils.storage.get(STORAGE_KEY, false);
 
-    const showRandomReminder = () => {
-      if (!remindersContainer) return;
-      const index = Math.floor(Math.random() * reminders.length);
-      remindersContainer.textContent = reminders[index];
+    const showMessage = (msg, isError = false) => {
+      if (!pledgeMessage) return;
+      pledgeMessage.textContent = msg;
+      pledgeMessage.style.color = isError ? "red" : "green";
     };
+
+    const setPledged = () => Utils.storage.set(STORAGE_KEY, true);
 
     const init = () => {
-      showRandomReminder();
-      setInterval(showRandomReminder, 60 * 60 * 1000); // Update every hour
+      if (!pledgeForm || !pledgeMessage) return;
+
+      if (hasPledged()) {
+        showMessage("You have already pledged allegiance. JazakAllah Khair!");
+        pledgeForm.style.display = "none";
+        return;
+      }
+
+      pledgeForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const checkbox = pledgeForm.querySelector("#pledge-checkbox");
+        if (!checkbox || !checkbox.checked) {
+          showMessage("Please check the box to pledge allegiance.", true);
+          return;
+        }
+        setPledged();
+        showMessage("Thank you for pledging your allegiance to Divine DRF Robo!");
+        pledgeForm.style.display = "none";
+      });
     };
 
     return { init };
   })();
 
-  // Initialize all modules after DOM is ready
+  // Alerts / Feed Module: Renders alerts dynamically with extensibility for future API integration
+  const Alerts = (() => {
+    const alertsContainer = document.getElementById("alerts-container");
+
+    // Static alerts - replace or extend this with API fetch or real-time data
+    const alerts = [
+      {
+        id: 1,
+        message:
+          "⚠️ Beware of gambling and scams — Stay on the straight path of Islam and Divine DRF Robo.",
+        timestamp: "2025-05-29T08:00:00Z",
+      },
+      {
+        id: 2,
+        message:
+          "📢 New update: Divine DRF Robo now includes enhanced chatbot guidance.",
+        timestamp: "2025-05-28T14:30:00Z",
+      },
+    ];
+
+    const renderAlerts = () => {
+      if (!alertsContainer) return;
+      alertsContainer.innerHTML = "";
+      if (!alerts.length) {
+        alertsContainer.innerHTML = "<p>No alerts at this time.</p>";
+        return;
+      }
+      alerts.forEach(({ id, message, timestamp }) => {
+        const alertDiv = document.createElement("section");
+        alertDiv.className = "alert";
+        alertDiv.setAttribute("role", "alert");
+        alertDiv.setAttribute("aria-live", "polite");
+        alertDiv.innerHTML = `
+          <p>${Utils.escapeHtml(message)}</p>
+          <time datetime="${timestamp}">${Utils.formatDateTime(timestamp)}</time>
+        `;
+        alertsContainer.appendChild(alertDiv);
+      });
+    };
+
+    const init = () => renderAlerts();
+
+    return { init };
+  })();
+
+  // Initialize all modules safely
   const initApp = () => {
-    Chatbot.init();
-    Social.init();
-    DailyReminders.init();
+    try {
+      Chatbot.init();
+      Social.init();
+      Pledge.init();
+      Alerts.init();
+    } catch (err) {
+      console.error("Initialization error:", err);
+    }
   };
 
+  // DOMContentLoaded to ensure DOM ready before initialization
   document.addEventListener("DOMContentLoaded", initApp);
 })();
