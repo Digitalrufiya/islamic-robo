@@ -1,32 +1,36 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+const reminders = [
+  {
+    question: "taqwa",
+    answer: "“O you who believe! Fear Allah as He should be feared, and do not die except as Muslims.” (Qur’an 3:102)"
+  },
+  {
+    question: "death",
+    answer: "“Every soul shall taste death.” (Qur’an 3:185)"
+  },
+  {
+    question: "hellfire",
+    answer: "“Fear the Fire whose fuel is men and stones.” (Qur’an 2:24)"
+  },
+  {
+    question: "purpose",
+    answer: "“And I did not create jinn and mankind except to worship Me.” (Qur’an 51:56)"
+  },
+  {
+    question: "forgiveness",
+    answer: "“Despair not of the Mercy of Allah. Verily, Allah forgives all sins.” (Qur’an 39:53)"
+  }
+];
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#canvas'), antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+function askDRF() {
+  const input = document.getElementById("input").value.toLowerCase();
+  const output = document.getElementById("output");
+  const match = reminders.find(r =>
+    input.includes(r.question)
+  );
 
-// Light
-const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5);
-scene.add(light);
-
-// Position
-camera.position.set(0, 1.6, 3);
-
-// Load DRF Robo
-const loader = new GLTFLoader();
-loader.load('drfrobo.glb', function (gltf) {
-  const model = gltf.scene;
-  model.scale.set(1, 1, 1);
-  model.position.set(0, 0, 0);
-  scene.add(model);
-
-  // Animation
-  const animate = () => {
-    requestAnimationFrame(animate);
-    model.rotation.y += 0.005; // slow rotate
-    renderer.render(scene, camera);
-  };
-  animate();
-});
+  if (match) {
+    output.innerHTML = `<p>${match.answer}</p>`;
+  } else {
+    output.innerHTML = `<p>🤖 DRF: I am a digital reminder. I advise you to consult a local scholar for deep guidance. May Allah guide us all. 🤲</p>`;
+  }
+}
