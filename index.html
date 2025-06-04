@@ -2,22 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Divine DRF Robo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DRF Social</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>🕋 Divine DRF Robo</h1>
-    <p class="tagline">Digital Reminder of Fear Allah</p>
-    <div id="output" class="output-box">
-      <p>Type your question about Islam below 👇</p>
-    </div>
-    <textarea id="input" placeholder="Ask something about Islam, Qur’an, Taqwā…"></textarea>
-    <button onclick="askDRF()">Ask</button>
-  </div>
-  <footer>📿 Remember Allah Often | DRF Protocol v1.0</footer>
+    <h1>📸 DRF Social Feed</h1>
 
-  <script src="main.js"></script>
+    <form id="postForm">
+      <input type="text" id="caption" placeholder="Write a caption..." required />
+      <input type="text" id="wallet" placeholder="Your DRF Wallet Address" required />
+      <input type="file" id="mediaFile" accept="image/*,video/*" required />
+      <button type="submit">Post</button>
+    </form>
+
+    <div id="feed"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
