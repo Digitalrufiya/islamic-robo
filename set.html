@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Claim Your $10 Free on Gate.io!</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00ffc8" />
+
   <style>
     /* Reset & base */
     * {
@@ -288,6 +293,19 @@
   }
   function shareWhatsApp() {
     window.open(`https://api.whatsapp.com/send?text=${shareText}%20${pageUrl}`, '_blank');
+  }
+
+  // Register Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => {
+          console.log('Service Worker registered successfully:', reg);
+        })
+        .catch(err => {
+          console.log('Service Worker registration failed:', err);
+        });
+    });
   }
 </script>
 
